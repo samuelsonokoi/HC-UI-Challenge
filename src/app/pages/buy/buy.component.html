@@ -1,5 +1,5 @@
 <div class="px-4 py-6">
-  <div class="grid grid-cols-6 gap-2">
+  <div class="grid grid-cols-6 gap-2" *ngIf="currentStep < 5">
     <div
       class="bg-[#ededee] h-2 first:rounded-l-lg relative active last:rounded-r-lg"
       *ngFor="let step of [1, 2, 3, 4, 5, 6]"
@@ -140,7 +140,7 @@
       <div class="flex items-center justify-between text-[#656565] text-sm">
         <span>Estimated Fee</span>
         <div class="flex items-center justify-start">
-          <span class="">5 USDT</span>
+          <span>{{ 5 | number : "1.2" }} USDT</span>
         </div>
       </div>
       <hr class="border-gray-200" />
@@ -167,6 +167,7 @@
       </button>
     </div>
 
+    <!-- phone number step -->
     <div class="space-y-4 text-[#656565]" *ngIf="currentStep === 2">
       <div>
         <span class="font-semibold text-lg block mb-0 text-black"
@@ -219,6 +220,7 @@
       </div>
 
       <hr class="border-gray-200" />
+
       <div class="flex gap-4 justify-end items-center">
         <button
           type="button"
@@ -264,58 +266,23 @@
       </div>
     </div>
 
+    <!-- email step -->
     <div class="space-y-4 text-[#656565]" *ngIf="currentStep === 3">
       <div>
         <span class="font-semibold text-lg block mb-0 text-black"
-          >Where do we pay you?</span
-        >
-        <span class="text-sm"
-          >Please provide details about the account we should send money
-          to:</span
+          >Enter email address to continue</span
         >
       </div>
 
       <div>
         <span class="text-sm block">Account Name</span>
         <div class="rounded-lg bg-[#f6f6f7] py-3 px-4 text-lg">
-          <span>Dominic Mulinda</span>
+          <span>dominic&#64;honeycoin.app</span>
         </div>
-      </div>
-
-      <div>
-        <label for="phoneNumber" class="text-sm block">Phone Number</label>
-        <div
-          class="grid grid-cols-[23%_1fr] py-3 px-4 justify-start items-center border border-gray-200 rounded-lg"
-        >
-          <div class="flex justify-start items-center space-x-3">
-            <img src="kenyan.jpg" alt="Kenyan" class="h-5" />
-            <i class="lni lni-chevron-down"></i>
-            <span>+254</span>
-            <span>|</span>
-          </div>
-          <input
-            id="phoneNumber"
-            type="tel"
-            formControlName="phoneNumber"
-            class="bg-transparent ring-0 outline-0 text-lg w-full"
-            placeholder="Enter Phone Number"
-          />
-        </div>
-        <small
-          class="text-red-500"
-          *ngIf="
-            buyForm.get('phoneNumber')?.invalid &&
-            (buyForm.get('phoneNumber')?.dirty ||
-              buyForm.get('phoneNumber')?.touched)
-          "
-        >
-          <span *ngIf="buyForm.get('phoneNumber')?.hasError('required')"
-            >Phone number is required.</span
-          >
-        </small>
       </div>
 
       <hr class="border-gray-200" />
+
       <div class="flex gap-4 justify-end items-center">
         <button
           type="button"
@@ -343,7 +310,7 @@
           [disabled]="buyForm.get('phoneNumber')?.invalid"
           (click)="moveForward()"
         >
-          <span class="text-white">Continue</span>
+          <span class="text-white">Next: Verify</span>
           <svg
             width="24"
             height="24"
@@ -359,6 +326,249 @@
           </svg>
         </button>
       </div>
+    </div>
+
+    <!-- transaction review -->
+    <div class="space-y-4 text-[#656565]" *ngIf="currentStep === 4">
+      <div>
+        <span class="font-semibold text-lg block mb-0 text-black"
+          >Review your transaction</span
+        >
+        <span class="text-sm"
+          >Please review the details of your order before sumbitting the
+          request.</span
+        >
+      </div>
+
+      <div class="rounded-lg bg-[#f6f6f7] p-4 space-y-5">
+        <div class="flex justify-between items-center">
+          <span class="text-sm block">Send</span>
+          <div class="flex justify-start items-center gap-1 text-black">
+            <img
+              src="tether-usdt-logo.png"
+              alt="usdt logo"
+              class="h-5 rounded-full"
+            />
+            <span>{{ buyForm.get("amountToPay")?.value | number }}</span>
+            <span>USDT</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm block">Provider Fee</span>
+          <div class="flex justify-start items-center gap-1 text-black">
+            <span>{{ 5 | number : "1.2" }}</span>
+            <span>USDT</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm block">To Receive</span>
+          <div class="flex justify-start items-center gap-1 text-black">
+            <span>{{ amountToReceive | number : "3.2-2" }}</span>
+            <span>KES</span>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="#fff"
+              xmlns="http://www.w3.org/2000/svg"
+              transform="rotate(0 0 0)"
+            >
+              <path
+                d="M10.1699 10.4384C10.1699 9.42772 10.9892 8.6084 11.9999 8.6084C13.0106 8.6084 13.8299 9.42772 13.8299 10.4384C13.8299 11.0591 13.5209 11.6076 13.0483 11.9385C12.5433 12.2921 11.9999 12.7682 11.9999 13.3847M11.9999 15.3927H12.0074M21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12Z"
+                stroke="#fff"
+                fill="#124e64"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm block">Estimated Time</span>
+          <div class="flex justify-start items-center gap-1 text-black">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              transform="rotate(0 0 0)"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M6.6767 3.09336C6.75061 2.74731 7.05632 2.5 7.41016 2.5H14.6891C14.9457 2.5 15.1845 2.6312 15.3221 2.8478C15.4597 3.0644 15.477 3.33632 15.368 3.56863L13.1876 8.21482L18.8398 8.21482C19.1127 8.21482 19.3641 8.36309 19.4962 8.60195C19.6282 8.84081 19.6201 9.13255 19.4749 9.36368L11.4461 22.1489C11.2619 22.4422 10.9008 22.5712 10.5724 22.4611C10.244 22.3509 10.0338 22.0302 10.0637 21.6852L10.6842 14.5352H5.16016C4.93376 14.5352 4.71947 14.4329 4.57707 14.2569C4.43468 14.0809 4.37942 13.8499 4.4267 13.6285L6.6767 3.09336ZM8.0169 4L6.08725 13.0352H11.5021C11.7123 13.0352 11.9128 13.1234 12.0549 13.2783C12.1969 13.4332 12.2675 13.6406 12.2493 13.85L11.8264 18.7226L17.4832 9.71482L12.0071 9.71482C11.7505 9.71482 11.5117 9.58362 11.3741 9.36702C11.2365 9.15042 11.2192 8.8785 11.3282 8.64619L13.5086 4H8.0169Z"
+                fill="#FBCB6E "
+              />
+            </svg>
+            <span class="font-semibold">1 min</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <div class="flex gap-4 justify-end items-center">
+        <button
+          type="button"
+          class="flex justify-center items-center bg-[#ecf1f3] rounded-lg py-4 px-8 cursor-pointer w-fit"
+          (click)="moveBackward()"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            transform="rotate(0 0 0)"
+          >
+            <path
+              d="M3.57813 12.4981C3.5777 12.6905 3.65086 12.8831 3.79761 13.0299L9.7936 19.0301C10.0864 19.3231 10.5613 19.3233 10.8543 19.0305C11.1473 18.7377 11.1474 18.2629 10.8546 17.9699L6.13418 13.2461L20.3295 13.2461C20.7437 13.2461 21.0795 12.9103 21.0795 12.4961C21.0795 12.0819 20.7437 11.7461 20.3295 11.7461L6.14168 11.7461L10.8546 7.03016C11.1474 6.73718 11.1473 6.2623 10.8543 5.9695C10.5613 5.6767 10.0864 5.67685 9.79362 5.96984L3.84392 11.9233C3.68134 12.0609 3.57812 12.2664 3.57812 12.4961L3.57813 12.4981Z"
+              fill="#1a5368"
+            />
+          </svg>
+          <span class="text-[#1a5368] font-semibold">Go Back</span>
+        </button>
+        <button
+          type="button"
+          class="flex justify-center items-center bg-black w-fit rounded-lg py-4 cursor-pointer disabled:bg-gray-800 disabled:cursor-default px-8"
+          (click)="moveForward()"
+        >
+          <span class="text-white">Continue To Pay</span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            transform="rotate(0 0 0)"
+          >
+            <path
+              d="M21.0791 12.519C21.0744 12.7044 21.0013 12.8884 20.8599 13.0299L14.8639 19.0301C14.5711 19.3231 14.0962 19.3233 13.8032 19.0305C13.5103 18.7377 13.5101 18.2629 13.8029 17.9699L18.5233 13.2461L4.32813 13.2461C3.91391 13.2461 3.57813 12.9103 3.57812 12.4961C3.57812 12.0819 3.91391 11.7461 4.32812 11.7461L18.5158 11.7461L13.8029 7.03016C13.5101 6.73718 13.5102 6.2623 13.8032 5.9695C14.0962 5.6767 14.5711 5.67685 14.8639 5.96984L20.813 11.9228C20.976 12.0603 21.0795 12.2661 21.0795 12.4961C21.0795 12.5038 21.0794 12.5114 21.0791 12.519Z"
+              fill="#fff "
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Pay step -->
+    <div class="space-y-4 text-[#656565]" *ngIf="currentStep === 5">
+      <span class="block text-gray-500 text-center font-semibold"
+        >Complete Payment</span
+      >
+      <div class="flex justify-center items-end">
+        <span class="text-5xl font-bold text-center block text-black"
+          >{{ buyForm.get("amountToPay")?.value | number : "1.2" }} USDT</span
+        >
+        <img src="copy.png" alt="copy" class="h-6 w-6" />
+      </div>
+
+      <div class="flex justify-center items-center gap-2">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.35281 2.61417C5.69063 2.37448 5.77017 1.90631 5.53048 1.5685C5.29079 1.23068 4.82262 1.15114 4.48481 1.39083C3.25694 2.26205 2.18702 3.34102 1.3261 4.57669C1.08931 4.91655 1.17287 5.38401 1.51273 5.6208C1.85259 5.85759 2.32006 5.77403 2.55684 5.43417C3.31882 4.34051 4.26601 3.3853 5.35281 2.61417Z"
+            fill="#323544"
+          />
+          <path
+            d="M19.5143 1.39083C19.1765 1.15114 18.7083 1.23068 18.4686 1.5685C18.2289 1.90631 18.3085 2.37448 18.6463 2.61417C19.7331 3.3853 20.6803 4.34051 21.4423 5.43417C21.6791 5.77403 22.1465 5.85759 22.4864 5.6208C22.8263 5.38401 22.9098 4.91655 22.673 4.57669C21.8121 3.34102 20.7422 2.26205 19.5143 1.39083Z"
+            fill="#323544"
+          />
+          <path
+            d="M11.2496 11.9999V6.50024C11.2496 6.08603 11.5854 5.75024 11.9996 5.75024C12.4138 5.75024 12.7496 6.08603 12.7496 6.50024V11.6894L15.3582 14.298C15.6511 14.5909 15.6511 15.0658 15.3582 15.3587C15.0653 15.6516 14.5905 15.6516 14.2976 15.3587L11.4692 12.5304L11.2496 11.9999Z"
+            fill="#323544"
+          />
+          <path
+            d="M11.4677 12.5288L11.2496 11.9999C11.2496 12.2062 11.3329 12.3932 11.4677 12.5288Z"
+            fill="#323544"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M2.00007 12C2.00007 6.47736 6.47706 2.00037 11.9997 2.00037C17.5224 2.00037 21.9994 6.47736 21.9994 12C21.9994 17.5227 17.5224 21.9997 11.9997 21.9997C6.47706 21.9997 2.00007 17.5227 2.00007 12ZM11.9997 3.50037C7.30549 3.50037 3.50007 7.30579 3.50007 12C3.50007 16.6943 7.30549 20.4997 11.9997 20.4997C16.694 20.4997 20.4994 16.6943 20.4994 12C20.4994 7.30579 16.694 3.50037 11.9997 3.50037Z"
+            fill="#323544"
+          />
+        </svg>
+        <span>Remaining time for transfer: </span>
+        <span class="text-[#e9458e]">29:43</span>
+      </div>
+
+      <div class="space-y-4">
+        <div
+          class="rounded-lg bg-[#f6f6f7] p-4 flex justify-between items-center"
+        >
+          <span class="block">Wallet Address</span>
+          <div
+            class="flex justify-start items-center gap-2 text-black font-semibold"
+          >
+            <span>0x30fae93037bac7c94df00p2...</span>
+            <img src="copy.png" alt="copy" class="h-6 w-6" />
+          </div>
+        </div>
+
+        <div
+          class="rounded-lg bg-[#f6f6f7] p-4 flex justify-between items-center"
+        >
+          <span class="block">Network</span>
+          <div
+            class="flex justify-start items-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-semibold"
+          >
+            <img src="eth.svg" alt="eth" class="h-5 w-5" />
+            <span>ETH</span>
+          </div>
+        </div>
+
+        <div
+          class="rounded-lg bg-[#fef8ed] border-2 border-[#fde3b8] p-4 flex gap-4 justify-start items-center"
+        >
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="#fef8ed"
+            xmlns="http://www.w3.org/2000/svg"
+            transform="rotate(0 0 0)"
+          >
+            <path
+              d="M10.1699 10.4384C10.1699 9.42772 10.9892 8.6084 11.9999 8.6084C13.0106 8.6084 13.8299 9.42772 13.8299 10.4384C13.8299 11.0591 13.5209 11.6076 13.0483 11.9385C12.5433 12.2921 11.9999 12.7682 11.9999 13.3847M11.9999 15.3927H12.0074M21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12Z"
+              stroke="#f8ad34"
+              fill="#fef8ed"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span
+            >Please only send the selected token on the specified network to
+            this address. Order will be cancelled when the timer above hits
+            zero.</span
+          >
+        </div>
+
+        <span class="block text-center">Or Scan QR Code</span>
+
+        <div
+          class="rounded-lg bg-[#f6f6f7] p-4 flex justify-center items-center"
+        >
+          <img src="qr-code.png" alt="QR Code" class="h-48" />
+        </div>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <button
+        type="button"
+        class="flex justify-center items-center bg-[#f1e2df] w-full rounded-lg py-4 cursor-pointer disabled:bg-gray-800 disabled:cursor-default px-8"
+      >
+        <span class="text-[#7e473a]">Cancel Payment</span>
+      </button>
     </div>
   </form>
 </div>

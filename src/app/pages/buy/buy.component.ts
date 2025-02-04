@@ -1,11 +1,10 @@
 import { DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ButtonComponent } from "../../components/button/button.component";
 
 @Component({
   selector: 'app-buy',
-  imports: [ReactiveFormsModule, NgIf, NgFor, DecimalPipe, ButtonComponent],
+  imports: [ReactiveFormsModule, NgIf, NgFor, DecimalPipe],
   templateUrl: './buy.component.html',
   styleUrl: './buy.component.scss'
 })
@@ -13,7 +12,8 @@ export class BuyComponent implements OnInit {
   buyForm = new FormGroup({
     amountToPay: new FormControl(100, [Validators.required, Validators.min(100)]),
     accountName: new FormControl('Dominic Mulinda', [Validators.required]),
-    phoneNumber: new FormControl('713210124', [Validators.required])
+    phoneNumber: new FormControl('713210124', [Validators.required]),
+    emailAddress: new FormControl('dominic@honeycoin.app', [Validators.required, Validators.email]),
   });
   currentStep = 2;
   amountToReceive = 0;
