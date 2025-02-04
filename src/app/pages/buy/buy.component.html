@@ -1,1 +1,28 @@
-<p class="text-7xl">buy works!</p>
+<div class="px-4 py-6">
+  <div class="grid grid-cols-6 gap-2">
+    <div
+      class="bg-[#ededee] h-2 first:rounded-l-lg relative active last:rounded-r-lg"
+      *ngFor="let step of [1, 2, 3, 4, 5, 6]"
+      [class.active]="step === currentStep || currentStep >= step"
+    >
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="#000"
+        xmlns="http://www.w3.org/2000/svg"
+        transform="rotate(0 0 0)"
+        *ngIf="step === currentStep || currentStep >= step"
+      >
+        <path
+          d="M14.9768 9.99417L10.9649 14.006L9.02327 12.0644M21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12Z"
+          stroke="#fff"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+  </div>
+  <form [formGroup]="buyForm" (ngSubmit)="onSubmit()"></form>
+</div>
