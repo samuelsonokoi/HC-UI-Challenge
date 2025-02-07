@@ -14,3 +14,6 @@ Once the server is running, open your browser and navigate to `http://localhost:
 
 ## Online Demo
 [Project Demo](https://honeycoin-ui.web.app)
+
+## UI Instructions
+[Instructions](https://github.com/mulindaD/HC-UI-Challenge)
